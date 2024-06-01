@@ -47,6 +47,7 @@ public class ELibrarySoft extends JFrame {
     private String currentCreationDate = "3/30/2015";
     private String currentLastLoginDate = "7/3/2016";
 
+    //Main frame toh kasama ung top panel and left panel containing buttons
     public ELibrarySoft() {
         setTitle("eLibrary Soft");
         setSize(1000, 700);
@@ -56,7 +57,7 @@ public class ELibrarySoft extends JFrame {
         
         notes = new HashMap<>();
 
-        // Create the top panel
+        //top panel
         JPanel topPanel = new JPanel();
         topPanel.setBackground(new Color(107, 173, 35));
         topPanel.setLayout(new BorderLayout());
@@ -81,7 +82,7 @@ public class ELibrarySoft extends JFrame {
         logoutButton.setFocusPainted(false);
         topPanel.add(logoutButton, BorderLayout.EAST);
 
-        // Create the left panel
+        //left panel
         JPanel leftPanel = new JPanel();
         leftPanel.setBackground(new Color(43, 57, 72));
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
@@ -100,7 +101,7 @@ public class ELibrarySoft extends JFrame {
 
         leftPanel.add(Box.createVerticalStrut(30));
 
-        // Add individual buttons with icons
+        //mga buttons with icons (make sure tama ung path)
         leftPanel.add(createIconButton("Icon/DASHBOARD.png", "Dashboard", e -> dashboard()));
         leftPanel.add(Box.createVerticalStrut(20));
         leftPanel.add(createIconButton("Icon/SM1.png", "System Management", e -> systemManagement()));
@@ -113,12 +114,12 @@ public class ELibrarySoft extends JFrame {
         leftPanel.add(Box.createVerticalStrut(20));
         leftPanel.add(createIconButton("Icon/PERSONAL-INFORMATION.png", "Personal Details", e -> personalDetails()));
 
-        // Create the right panel
+        //right panel (eto ung lageng pabagobago ng content) 
         rightPanel = new JPanel();
         rightPanel.setBackground(Color.WHITE);
         rightPanel.setLayout(new CardLayout());
 
-        // Add panels to the frame
+        //set the frame
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(topPanel, BorderLayout.NORTH);
         getContentPane().add(leftPanel, BorderLayout.WEST);
@@ -133,7 +134,8 @@ public class ELibrarySoft extends JFrame {
 
         return new ImageIcon(scaledImage);
     }
-    
+
+    //pang resize lang ng image icon
     private JPanel createIconButton(String iconPath, String text, ActionListener actionListener) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
@@ -159,6 +161,7 @@ public class ELibrarySoft extends JFrame {
         return panel;
     }
 
+    //wala pang laman
     private void dashboard(){
         rightPanel.removeAll();
         // Add your dashboard component
@@ -170,6 +173,7 @@ public class ELibrarySoft extends JFrame {
         rightPanel.repaint();
     }
 
+    //eto cinacall ng System Management button
     private void systemManagement() {
         rightPanel.removeAll();
         sysManagementPanel.removeAll();
@@ -189,12 +193,14 @@ public class ELibrarySoft extends JFrame {
 
         sysManagementPanel.add(topPanel);
         
+        //dropdown menu
         String[] options = {"Book List", "Requests", "Transactions"};
         JComboBox<String> dropdown = new JComboBox<>(options);
         dropdown.setBounds(555,120,150,25);
         
         sysManagementPanel.add(dropdown);
-        
+
+        //eto ung main panel para sa table
         contentPanel = new JPanel(null);
         contentPanel.setBorder(new OutwardShadow(5));
         contentPanel.setBounds(50,160,635,400);
@@ -224,13 +230,15 @@ public class ELibrarySoft extends JFrame {
         rightPanel.revalidate();
     }
 
+    //Book List na nag pprint ng table
     private void showBookList() {
         contentPanel.removeAll();
 
         JPanel bookListPanel = new JPanel(new BorderLayout());
         bookListPanel.setBounds(0, 0, 635, 400); // Set the bounds for bookListPanel
-
+        
         String[] columnNames = {"Book", "Author", "Category", "Status"};
+        //Etong object data palitan ng laman ng database
         Object[][] data = {
             {"Book 1", "Author 1", "Category 1", "Status 1"},
             {"Book 2", "Author 2", "Category 2", "Status 2"},
@@ -243,26 +251,26 @@ public class ELibrarySoft extends JFrame {
 
         JTable table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
-        bookListPanel.add(scrollPane, BorderLayout.CENTER); // Add scrollPane to the CENTER of bookListPanel
+        bookListPanel.add(scrollPane, BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel(); // buttonPanel should use default FlowLayout or similar
+        JPanel buttonPanel = new JPanel();
         JButton addButton = new JButton("ADD");
-        addButton.setPreferredSize(new Dimension(80, 25)); // Set preferred size
+        addButton.setPreferredSize(new Dimension(80, 25)); 
         applyGreenButtonStyle(addButton);
 
         JButton editButton = new JButton("EDIT");
-        editButton.setPreferredSize(new Dimension(80, 25)); // Set preferred size
+        editButton.setPreferredSize(new Dimension(80, 25));
         applyGreenButtonStyle(editButton);
 
         JButton deleteButton = new JButton("DELETE");
-        deleteButton.setPreferredSize(new Dimension(80, 25)); // Set preferred size
+        deleteButton.setPreferredSize(new Dimension(80, 25)); 
         applyGreenButtonStyle(deleteButton);
         
         buttonPanel.add(addButton);
         buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);
 
-        // Add functionality for buttons
+        // Button actionListeners lang
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -342,12 +350,13 @@ public class ELibrarySoft extends JFrame {
         contentPanel.repaint();
     }
 
+    //Request Table sa System Management
     private void showRequests() {
         contentPanel.removeAll();
-        contentPanel.setLayout(null); // Ensure the layout is set to null if not already set
+        contentPanel.setLayout(null); 
 
         JPanel requestsPanel = new JPanel(new BorderLayout());
-        requestsPanel.setBounds(0, 0, 635, 400); // Set the bounds for requestsPanel
+        requestsPanel.setBounds(0, 0, 635, 400);
 
         String[] columnNames = {"Student Number", "Name", "Book Requested", "Return Date", "Status"};
         Object[][] data = {
@@ -383,12 +392,13 @@ public class ELibrarySoft extends JFrame {
         contentPanel.repaint();
     }
 
+    //Transactions table sa System Management
     private void showTransactions() {
         contentPanel.removeAll();
-        contentPanel.setLayout(null); // Ensure the layout is set to null if not already set
+        contentPanel.setLayout(null); 
 
         JPanel transactionsPanel = new JPanel(new BorderLayout());
-        transactionsPanel.setBounds(0, 0, 635, 400); // Set the bounds for transactionsPanel
+        transactionsPanel.setBounds(0, 0, 635, 400);
 
         String[] columnNames = {"Student Number", "Name", "Type of Transaction", "Status"};
         Object[][] data = {
@@ -405,7 +415,8 @@ public class ELibrarySoft extends JFrame {
         contentPanel.revalidate();
         contentPanel.repaint();
     }
-    
+
+    //Transaction panel
     private void transaction(){
         rightPanel.removeAll();
         transactionPanel.removeAll();
@@ -467,6 +478,8 @@ public class ELibrarySoft extends JFrame {
         confirmPaymentButton.setOpaque(true);
         confirmPaymentButton.setFocusPainted(false);
         confirmPaymentButton.setBounds(10, 460, 150, 30);
+
+        //Listener para sa Confirm Payment checking the checkboxes
         confirmPaymentButton.addActionListener(e -> {
             StringBuilder confirmedTransactions = new StringBuilder("Do you want to confirm these transactions?\n");
             boolean atLeastOneChecked = false;
@@ -526,11 +539,10 @@ public class ELibrarySoft extends JFrame {
     private void shelves() {
         rightPanel.removeAll();
 
-        // Create the main panel to hold the shelves
+        //main panel to hold the shelves
         JPanel shelvesPanel = new JPanel();
         shelvesPanel.setLayout(null);
 
-        // Create JLabel for "SHELVES"
         JLabel shelvesLabel = new JLabel("SHELVES");
         shelvesLabel.setFont(new Font("Arial", Font.BOLD, 32));
         shelvesLabel.setBounds(0, 0, 400, 50);
@@ -543,7 +555,7 @@ public class ELibrarySoft extends JFrame {
         labelPanel.add(shelvesLabel);
         shelvesPanel.add(labelPanel);
 
-        // Create JComboBox for Aisle, Category, and Status
+        //JComboBox for Aisle, Category, and Status
         JComboBox<String> aisleComboBox = new JComboBox<>(new String[]{"", "Aisle 1", "Aisle 2", "Aisle 3", "Aisle 4", "Aisle 5"});
         JComboBox<String> categoryComboBox = new JComboBox<>(new String[]{"", "Science", "Mathematics", "English", "Filipino", "Computer Studies"});
         JComboBox<String> statusComboBox = new JComboBox<>(new String[]{"", "Available", "Unavailable"});
@@ -561,7 +573,7 @@ public class ELibrarySoft extends JFrame {
 
         shelvesPanel.add(comboBoxPanel);
 
-        // Create the table without checkboxes
+        //Table
         String[] columnNames = {"Book", "Author", "Category", "Status", "Aisle"};
         Object[][] data = {
             {"Book 1", "Author 1", "Science", "Available", "Aisle 1"},
@@ -620,6 +632,7 @@ public class ELibrarySoft extends JFrame {
         deleteButton.addActionListener(e -> deleteBooks());
     }
 
+    //filterTable para ma filter yung contents ng table depende sa comboBoxes
     private void filterTable(JComboBox<String> aisleComboBox, JComboBox<String> categoryComboBox, JComboBox<String> statusComboBox) {
         String aisle = (String) aisleComboBox.getSelectedItem();
         String category = (String) categoryComboBox.getSelectedItem();
@@ -643,6 +656,7 @@ public class ELibrarySoft extends JFrame {
         sorter.setRowFilter(filter);
     }
 
+    //Add book functionality sa Shelves
     private void addBook() {
         JTextField bookNameField = new JTextField();
         JTextField authorField = new JTextField();
@@ -669,6 +683,7 @@ public class ELibrarySoft extends JFrame {
         }
     }
 
+    //Edit book functionality sa Shelves
     private void editBooks() {
         int selectedRow = table.getSelectedRow();
         if (selectedRow != -1) {
@@ -704,6 +719,7 @@ public class ELibrarySoft extends JFrame {
         }
     }
 
+    //Delete books sa Shelves
     private void deleteBooks() {
         int selectedRow = table.getSelectedRow();
         if (selectedRow != -1) {
@@ -712,6 +728,8 @@ public class ELibrarySoft extends JFrame {
             JOptionPane.showMessageDialog(null, "Please select a row to delete.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    //Personal Details panel
     private void personalDetails(){
         rightPanel.removeAll();
         
@@ -726,15 +744,16 @@ public class ELibrarySoft extends JFrame {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 g.setColor(Color.DARK_GRAY);
-                g.fillRect(getWidth() / 2 - 1, 0, 2, getHeight()); // Draw a vertical line at the center
+                g.fillRect(getWidth() / 2 - 1, 0, 2, getHeight()); // vertical line sa tabe ng icon
             }
         };
 
-        // Set the size and layout of the vertical line panel
+        // Set the size and layout ng vertical line panel
         verticalLinePanel.setBounds(220, 115, 5, 420);
         
         personalDetailsPanel.add(verticalLinePanel);
-        
+
+        //Dimensions ng mainPanel
         int panelWidth = 800;
         int panelHeight = 600;
 
@@ -887,6 +906,7 @@ public class ELibrarySoft extends JFrame {
         rightPanel.repaint();
     }
 
+    //Calendar panel
     private void calendar() {
         rightPanel.removeAll();
         
@@ -931,6 +951,7 @@ public class ELibrarySoft extends JFrame {
         updateCalendar();
     }
 
+    //Update calendar functionalty
     private void updateCalendar() {
         int year = (int) yearComboBox.getSelectedItem();
         int month = monthComboBox.getSelectedIndex();
@@ -971,6 +992,7 @@ public class ELibrarySoft extends JFrame {
         calendarPanel.repaint();
     }
 
+    //Notes for the days functionality
     private void createNoteWindow(String day, int month, int year) {
         String key = day + "-" + month + "-" + year;
         String note = notes.getOrDefault(key, "");
@@ -994,6 +1016,7 @@ public class ELibrarySoft extends JFrame {
         noteFrame.setVisible(true);
     }
 
+    //Green button and hover effects for buttons
     public static void applyGreenButtonStyle(JButton button) {
         button.setFont(new Font("Arial", Font.BOLD, 14));
         button.setForeground(Color.WHITE);
